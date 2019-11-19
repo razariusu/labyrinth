@@ -5,12 +5,12 @@ export const rotateTile = (extraTile) => {
   }
 }
 
-export const changeExtra = (newExtraTile) => {
-  return {
-    type: 'CHANGE_EXTRA',
-    newExtraTile
-  }
-}
+// export const changeExtra = (newExtraTile) => {
+//   return {
+//     type: 'CHANGE_EXTRA',
+//     newExtraTile
+//   }
+// }
 
 export const positionExtra = (newExtraPosition) => {
   return {

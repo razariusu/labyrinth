@@ -12,7 +12,7 @@ const Tile = (props) => {
 
 
   useLayoutEffect(() => {
-    console.log('layout effect FIREEEEEEEEEED')
+
     setTransformation(props.transformation)
 
     return
@@ -25,10 +25,13 @@ const Tile = (props) => {
 
 
 
+
     return (
       <div className='tileDiv ' style={props.style}>
         <div className={`${props.transformation.transform !== 'none' ? 'toAnimate' : null}`} style={transformation}>
-        <div className={`${props.tile.type} tile`} style={{transform: `rotate(${degrees}deg)`}} onClick={() => props.handleClick(props.tile)}><p className='tilePar'>{props.tile.tileId}</p></div>
+          <div className={`${props.tile.type} tile`} style={{transform: `rotate(${degrees}deg)`}} onClick={() => props.handleClick(props.tile)}>
+
+          </div>
         </div>
 
       </div>

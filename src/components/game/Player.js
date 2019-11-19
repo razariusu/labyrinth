@@ -1,4 +1,4 @@
-import React, {PureComponent, useState, useLayoutEffect} from 'react'
+import React, {PureComponent, useState, useEffect, useLayoutEffect} from 'react'
 import {positions} from '../../functions'
 
 const Player = (props) => {
@@ -18,7 +18,7 @@ const Player = (props) => {
           if(i < path.length) {
             loop()
           }
-        }, 200)
+        }, 500)
       }
       loop()
       props.resetPath()
@@ -30,19 +30,20 @@ const Player = (props) => {
   useLayoutEffect(() => {
     if(path.length < 1) {
       setStyle(props.style)
+      console.log('style changed')
     }
 
 
     return
   }, [props.style])
 
-  useLayoutEffect(() => {
-    setTransformation(props.transformation)
-    return
-  }, [props.transformation])
+  // useEffect(() => {
+  //   setTransformation(props.transformation)
+  //   return
+  // }, [props.transformation])
   return(
-      <div className='playerDiv' style={Object.assign({}, positions[style], transformation)}>
-        <div className={`player player${props.player.player}`} >Hei</div>
+      <div className='playerDiv' style={Object.assign({}, positions[style])}>
+        <div className={`player player${props.player.player}`} style={transformation} >Hei</div>
       </div>
     )
   }

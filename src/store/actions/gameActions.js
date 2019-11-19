@@ -60,8 +60,8 @@ export const animateTiles = (toChange) => {
   }
 }
 
-export const restoreAnimation = () => {
-  return {
-    type: 'RESTORE_ANIMATION'
-  }
-}
+// export const restoreAnimation = () => {
+//   return {
+//     type: 'RESTORE_ANIMATION'
+//   }
+// }

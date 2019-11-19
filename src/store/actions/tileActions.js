@@ -65,6 +65,7 @@ export const addToBoard = (clickedTile, style) => {
     setTimeout(() => {
       dispatch(setTransformation(style, toChange))
     }, 200)
+    // restoreAnimation, finishAdd, changeExtra
     setTimeout(() => {
       dispatch(doAll(newBoard, newExtra))
     }, 1000)
@@ -84,12 +85,12 @@ export const addToBoard = (clickedTile, style) => {
 }
 
 
-export const finishAdd = (newBoard) => {
-  return {
-    type: 'FINISH_ADD',
-    newBoard
-  }
-}
+// export const finishAdd = (newBoard) => {
+//   return {
+//     type: 'FINISH_ADD',
+//     newBoard
+//   }
+// }
 
 export const beginPositioning = (x, nextTo, style) => {
   return (dispatch, getState) => {

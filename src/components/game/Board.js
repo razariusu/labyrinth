@@ -8,11 +8,13 @@ import {positions} from '../../functions'
 const Board = (props) => {
   console.log(props.transformation)
   let board = props.board;
-  const game = props.game
+  let game = props.game
+  let playerLocations = game.players.map(player => {
+    return player.location
+  })
   let allTiles = Object.values(board)
   const players = game.players.map(player => {
     let plIndex = allTiles.findIndex(el => {return el.tileId === player.location})
-    console.log(plIndex)
     return <Player player={player} key={player.player} style={plIndex} transformation={props.game.toTransform.includes(player.location) ? props.transformation : {transform: 'none'}} resetPath={props.resetPath} path={player.isNext ? game.path : []}/>
   })
   const tiles = allTiles.map((tile, i) => {
