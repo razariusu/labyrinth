@@ -1,13 +1,39 @@
+const missions = [0, 2, 4, 5, 7, 11, 14, 16, 18, 19, 20, 24]
+
+function shuffle() {
+  let currentIndex = missions.length;
+  let randomIndex;
+  let tempValue;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    tempValue = missions[currentIndex];
+    missions[currentIndex] = missions[randomIndex];
+    missions[randomIndex] = tempValue;
+  }
+  return missions;
+}
+
+const shuffledMissions = shuffle()
+
+const missions1 = [...shuffledMissions].splice(0, 3)
+const missions2 = [...shuffledMissions].splice(3, 3)
+const missions3 = [...shuffledMissions].splice(6, 3)
+const missions4 = [...shuffledMissions].splice(9, 3)
+
+
+
 const initState = {
   phase: 0,
   path: [],
   transformation: {transform: 'none'},
   toTransform: [],
   players: [
-    {player: 1, isNext: true, location: 0, goal: 21},
-    {player: 2, isNext: false, location: 1, goal: 23},
-    {player: 3, isNext: false, location: 2, goal: 5},
-    {player: 4, isNext: false, location: 3, goal: 15}
+    {player: 1, isNext: true, location: 0, goal: missions1},
+    {player: 2, isNext: false, location: 1, goal: missions2},
+    {player: 3, isNext: false, location: 2, goal: missions3},
+    {player: 4, isNext: false, location: 3, goal: missions4}
   ]
 }
 const gameReducer = (state = initState, action) => {
@@ -19,7 +45,6 @@ const gameReducer = (state = initState, action) => {
       const newPlayers = {...state, players: action.newPlayers}
       return newPlayers;
     case 'FINISH_MOVE':
-    console.log(action)
       let player = action.player
       player.location = action.goalTileId
       const path = action.path
@@ -30,6 +55,18 @@ const gameReducer = (state = initState, action) => {
       const movedState = {...state, players: newestPlayers, path}
       console.log(movedState)
       return movedState;
+    case 'MISSION_DONE':
+      let playerNew = action.player
+      let playersNew = Object.assign(state.players)
+      let newestPlayers1 = playersNew.map(each => {
+        if(each.player === playerNew.player) {
+          each.goal.filter(id => {
+            return id !== action.goalTileId
+          })
+        }
+        return each.player === playerNew.player ? playerNew : each
+      })
+      let theNewestState = {...state, players: newestPlayers1}
     case 'CHANGE_PHASE':
       let phaseState = Object.assign({}, state)
       if(phaseState.phase === 1) {
@@ -67,6 +104,5 @@ const gameReducer = (state = initState, action) => {
   };
 }
 
-
-
 export default gameReducer
+

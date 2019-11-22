@@ -69,18 +69,7 @@ export const addToBoard = (clickedTile, style) => {
     setTimeout(() => {
       dispatch(doAll(newBoard, newExtra))
     }, 1000)
-    // setTimeout(() => {
-    //   dispatch(restoreAnimation())
-    // }, 900)
-    // setTimeout(() => {
-    //   dispatch(finishAdd(newBoard))
-    // }, 1000)
-    // setTimeout(() => {
-    //   dispatch(changeExtra(newExtra))
-    // }, 1100)
-    setTimeout(() => {
-      dispatch(changePhase())
-    }, 1100)
+    dispatch(changePhase())
   }
 }
 

@@ -153,3 +153,16 @@
 
 
 }
+
+/* mission cards */
+
+.mission-card {
+  position: absolute;
+  top: 900px;
+  left: 50px;
+  height: 300px;
+  width: 200px;
+  border: 2px solid black;
+  background-color: yellow;
+  opacity: .7;
+}

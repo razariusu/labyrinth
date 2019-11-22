@@ -13,6 +13,9 @@ export const movePlayer = (goalTileId, player, path) => {
       console.log(player)
       if(goalTileId !== player.location) {
         dispatch(finishMove(goalTileId, player, path))
+        if(player.goal.includes(goalTileId)) {
+          dispatch(missionDone(player))
+        }
       }
 
       dispatch(changePhase())
@@ -57,6 +60,14 @@ export const animateTiles = (toChange) => {
   return {
     type: 'ANIMATE_TILES',
     toChange
+  }
+}
+
+export const missionDone = (player, goalTileId) => {
+  return {
+    type: 'MISSION_DONE',
+    player,
+    goalTileId
   }
 }
 

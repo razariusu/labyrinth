@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Board from './Board'
 import ExtraTile from './ExtraTile'
 import Player from './Player'
+import Card from './Card'
 import {connect} from 'react-redux'
 import { addToBoard, test, beginPositioning } from '../../store/actions/tileActions'
 import { rotateTile } from '../../store/actions/extraActions'
@@ -12,6 +13,7 @@ import {board, onBoard, inRow} from '../../store/reducers/tilesReducer'
 
 class Game extends Component {
 
+  // if socketId === currentPlayer
   handleClick = (clickedTile) => {
     if(this.props.game.phase === 0) {
       const board = this.props.board
@@ -49,7 +51,10 @@ class Game extends Component {
     }
   }
   handleRotation = (tile) => {
-    this.props.rotateTile(tile)
+    // if socketId === currentPlayer
+    if(this.props.game.phase === 0) {
+      this.props.rotateTile(tile)
+    }
   }
   resetPath = () => {
     this.props.resetPath()
@@ -63,7 +68,7 @@ class Game extends Component {
     return(
       <div className='container'>
         <Board board={this.props.board} extraTile={this.props.extraTile} handleRotation={this.handleRotation} game={this.props.game} handleClick={this.handleClick} resetPath={this.resetPath} transformation={this.props.game.transformation}/>
-
+        <Card />
       </div>
     )
   }
