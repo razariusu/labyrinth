@@ -42,18 +42,23 @@ const gameReducer = (state = initState, action) => {
       const newState = Object.assign({}, action.newGameState);
       return newState
     case 'UPDATE_PLAYER':
-      const newPlayers = {...state, players: action.newPlayers}
+      const newPlayers = Object.assign({}, state)
+      newPlayers.players.map((player, i) => {
+        return player.location = action.newPlayerLocs[i]
+      })
       return newPlayers;
+    case 'UPDATE_PATH':
+      const newPathState = Object.assign({}, state)
+      newPathState.path = action.path
+      return newPathState
     case 'FINISH_MOVE':
       let player = action.player
       player.location = action.goalTileId
-      const path = action.path
       let players = Object.assign(state.players)
       let newestPlayers = players.map(each => {
         return each.player === player.player ? player : each
       })
-      const movedState = {...state, players: newestPlayers, path}
-      console.log(movedState)
+      const movedState = {...state, players: newestPlayers}
       return movedState;
     case 'MISSION_DONE':
       let playerNew = action.player
@@ -73,7 +78,7 @@ const gameReducer = (state = initState, action) => {
         phaseState.phase = 0;
       }
       else {
-        phaseState.phase++
+        phaseState.phase = phaseState.phase + 1
       }
       return phaseState
     case 'RESET_PATH':
@@ -105,4 +110,3 @@ const gameReducer = (state = initState, action) => {
 }
 
 export default gameReducer
-

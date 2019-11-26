@@ -24,6 +24,7 @@ const extraReducer = (state = initState, action) => {
     case 'DO_ALL':
     let doAllState = Object.assign({}, state)
     doAllState.tile = action.newExtra
+    console.log(doAllState.tile)
     doAllState.position = {
       top: '1000px',
       left: '320px'
@@ -31,7 +32,7 @@ const extraReducer = (state = initState, action) => {
     return doAllState
     case 'POSITION_EXTRA':
     let newExtraState = Object.assign({}, state)
-    console.log(action.newExtraPosition)
+    console.log(newExtraState)
     newExtraState.position = action.newExtraPosition
     console.log(newExtraState)
     return newExtraState

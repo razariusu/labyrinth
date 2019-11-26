@@ -25,15 +25,8 @@ class Game extends Component {
         this.props.beginPositioning(x, nextTo, style)
         // this.props.setTransformation(style)
         this.props.addToBoard(clickedTile, style)
-
-        console.log('isMovable')
-        console.log(style)
       }
     }
-
-
-
-
 
     else if(this.props.game.phase === 1) {
       // grab socket Id and add to player state

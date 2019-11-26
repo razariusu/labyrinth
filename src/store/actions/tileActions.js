@@ -6,11 +6,16 @@ import {updatePlayer, changePhase, setTransformation, animateTiles, restoreAnima
 
 
 export const addToBoard = (clickedTile, style) => {
+  
   return (dispatch, getState) => {
+    
     const toChange = []
     const state = getState()
+    console.log(state)
     const board = Object.assign({}, state.tiles.board);
-    const players = Array.from(state.game.players)
+    const players = [...state.game.players]
+    console.log(players)
+    let newPlayerLocs
     const playerLocs = players.map(player => {
       return player.location
     })
@@ -51,27 +56,29 @@ export const addToBoard = (clickedTile, style) => {
       newBoard[toChange[i]] = toChangeObjects[i]
     }
 
-    if(playerLocs.includes(newExtra.tileId)) {
-      const newPlayerObjects = players.map((player, i) => {
-        if(player.location === newExtra.tileId) {
-          player.location = extraTile.tileId
-        }
-        return player
-      })
-      console.log(newPlayerObjects)
-      dispatch(updatePlayer(newPlayerObjects))
-    }
-    console.log(style)
+    
     setTimeout(() => {
       dispatch(setTransformation(style, toChange))
     }, 200)
     // restoreAnimation, finishAdd, changeExtra
     setTimeout(() => {
       dispatch(doAll(newBoard, newExtra))
+      if(playerLocs.includes(newExtra.tileId)) {
+        newPlayerLocs = playerLocs.map((loc) => {
+          return loc === newExtra.tileId ? extraTile.tileId : loc
+        })
+        dispatch(updatePlayer(newPlayerLocs))
+      }
+      dispatch(changePhase())
     }, 1000)
-    dispatch(changePhase())
+    
+    
   }
 }
+
+
+
+
 
 
 // export const finishAdd = (newBoard) => {

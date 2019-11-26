@@ -1,7 +1,7 @@
-export const updatePlayer = (newPlayers) => {
+export const updatePlayer = (newPlayerLocs) => {
   return {
     type: 'UPDATE_PLAYER',
-    newPlayers
+    newPlayerLocs
   }
 }
 
@@ -11,28 +11,36 @@ export const movePlayer = (goalTileId, player, path) => {
       console.log(player.location)
       console.log(goalTileId)
       console.log(player)
-      if(goalTileId !== player.location) {
-        dispatch(finishMove(goalTileId, player, path))
+
+      dispatch(updatePath(path))
+        setTimeout(() => {
+          dispatch(finishMove(goalTileId, player))
+          dispatch(resetPath())
+          dispatch(changePhase())
+        }, path.length * 300 + 50)
+      
         if(player.goal.includes(goalTileId)) {
           dispatch(missionDone(player))
         }
       }
-
-      dispatch(changePhase())
+      else {
+        alert('Illegal move')
+      }
     }
-    else {
-      alert('Illegal move')
-    }
+  }
 
+export const updatePath = (path) => {
+  return {
+    type: 'UPDATE_PATH',
+    path
   }
 }
 
-export const finishMove = (goalTileId, player, path) => {
+export const finishMove = (goalTileId, player) => {
   return {
     type: 'FINISH_MOVE',
     goalTileId,
-    player,
-    path
+    player
   }
 }
 
@@ -70,9 +78,3 @@ export const missionDone = (player, goalTileId) => {
     goalTileId
   }
 }
-
-// export const restoreAnimation = () => {
-//   return {
-//     type: 'RESTORE_ANIMATION'
-//   }
-// }
