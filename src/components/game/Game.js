@@ -15,7 +15,7 @@ class Game extends Component {
 
   // if socketId === currentPlayer
   handleClick = (clickedTile) => {
-    if(this.props.game.phase === 0) {
+    if(this.props.game.phase === 0 && this.props.game.locked === false) {
       const board = this.props.board
       const boardAr = Object.values(board)
       const x = parseInt(boardAr.findIndex(el => {return el.tileId === clickedTile.tileId}))
@@ -28,7 +28,7 @@ class Game extends Component {
       }
     }
 
-    else if(this.props.game.phase === 1) {
+    else if(this.props.game.phase === 1 && this.props.game.locked === false) {
       // grab socket Id and add to player state
       // for now, simulate with playerId
       // if socketId === playerId and if that player isNext === true

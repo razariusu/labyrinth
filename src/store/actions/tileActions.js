@@ -57,9 +57,8 @@ export const addToBoard = (clickedTile, style) => {
     }
 
     
-    setTimeout(() => {
-      dispatch(setTransformation(style, toChange))
-    }, 200)
+    // also lock the board
+    dispatch(setTransformation(style, toChange))
     // restoreAnimation, finishAdd, changeExtra
     setTimeout(() => {
       dispatch(doAll(newBoard, newExtra))
@@ -69,6 +68,7 @@ export const addToBoard = (clickedTile, style) => {
         })
         dispatch(updatePlayer(newPlayerLocs))
       }
+      // also unlock the board
       dispatch(changePhase())
     }, 1000)
     

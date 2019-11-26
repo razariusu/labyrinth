@@ -2,17 +2,19 @@ import React, {PureComponent, useState, useEffect, useLayoutEffect} from 'react'
 import {positions} from '../../functions'
 
 const Player = (props) => {
+  
   const path = props.path;
   const [style, setStyle] = useState(props.style)
   const [playerClass, setPlayerClass] = useState('playerDiv')
-  console.log(props.player)
+
   console.log(props.style)
 
 
   useEffect(() => {
+    
     if(path.length > 0) {
       setPlayerClass('playerDivTransition')
-      let i = 1
+      let i = 0
       const loop = () => {
         setTimeout(() => {
           setStyle(path[i])
@@ -31,6 +33,7 @@ const Player = (props) => {
     })
   }, [path])
 
+  // when player is on moved tile
   useEffect(() => {
     if(path.length < 1) {
       setStyle(props.style)

@@ -29,6 +29,7 @@ const initState = {
   path: [],
   transformation: {transform: 'none'},
   toTransform: [],
+  locked: false,
   players: [
     {player: 1, isNext: true, location: 0, goal: missions1},
     {player: 2, isNext: false, location: 1, goal: missions2},
@@ -50,6 +51,7 @@ const gameReducer = (state = initState, action) => {
     case 'UPDATE_PATH':
       const newPathState = Object.assign({}, state)
       newPathState.path = action.path
+      newPathState.locked = true
       return newPathState
     case 'FINISH_MOVE':
       let player = action.player
@@ -80,6 +82,7 @@ const gameReducer = (state = initState, action) => {
       else {
         phaseState.phase = phaseState.phase + 1
       }
+      phaseState.locked = false
       return phaseState
     case 'RESET_PATH':
       let resetState = Object.assign({}, state)
@@ -89,6 +92,7 @@ const gameReducer = (state = initState, action) => {
       const newTransformation = Object.assign({}, state)
       newTransformation.transformation = action.style
       newTransformation.toTransform = action.toChange
+      newTransformation.locked = true
       return newTransformation
     case 'ANIMATE_TILES':
       let animatedState = Object.assign({}, state)

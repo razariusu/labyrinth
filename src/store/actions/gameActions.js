@@ -11,13 +11,14 @@ export const movePlayer = (goalTileId, player, path) => {
       console.log(player.location)
       console.log(goalTileId)
       console.log(player)
-
+      
+      // also lock board
       dispatch(updatePath(path))
         setTimeout(() => {
           dispatch(finishMove(goalTileId, player))
           dispatch(resetPath())
           dispatch(changePhase())
-        }, path.length * 300 + 50)
+        }, (path.length + 1) * 300 + 50)
       
         if(player.goal.includes(goalTileId)) {
           dispatch(missionDone(player))
