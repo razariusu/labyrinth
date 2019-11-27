@@ -3,7 +3,8 @@ import React from 'react'
 const Card = (props) => {
     return (
         <div className='mission-card'>
-            <h1>This is a mission card</h1>
+            <h1>Current mission: {props.content.goal}</h1>
+            <h2>Score: {props.content.score}</h2>
         </div>
     )
 }

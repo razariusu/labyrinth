@@ -11,10 +11,8 @@ export const addToBoard = (clickedTile, style) => {
     
     const toChange = []
     const state = getState()
-    console.log(state)
     const board = Object.assign({}, state.tiles.board);
     const players = [...state.game.players]
-    console.log(players)
     let newPlayerLocs
     const playerLocs = players.map(player => {
       return player.location

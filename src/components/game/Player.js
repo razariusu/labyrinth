@@ -7,9 +7,6 @@ const Player = (props) => {
   const [style, setStyle] = useState(props.style)
   const [playerClass, setPlayerClass] = useState('playerDiv')
 
-  console.log(props.style)
-
-
   useEffect(() => {
     
     if(path.length > 0) {

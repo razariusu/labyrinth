@@ -8,9 +8,6 @@ export const updatePlayer = (newPlayerLocs) => {
 export const movePlayer = (goalTileId, player, path) => {
   return (dispatch, getState) => {
     if(path.length > 0) {
-      console.log(player.location)
-      console.log(goalTileId)
-      console.log(player)
       
       // also lock board
       dispatch(updatePath(path))
@@ -18,11 +15,10 @@ export const movePlayer = (goalTileId, player, path) => {
           dispatch(finishMove(goalTileId, player))
           dispatch(resetPath())
           dispatch(changePhase())
+          if(player.goal.includes(goalTileId)) {
+            dispatch(missionDone(player, goalTileId))
+          }
         }, (path.length + 1) * 300 + 50)
-      
-        if(player.goal.includes(goalTileId)) {
-          dispatch(missionDone(player))
-        }
       }
       else {
         alert('Illegal move')

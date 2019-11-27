@@ -4,7 +4,7 @@ function shuffle() {
   let currentIndex = missions.length;
   let randomIndex;
   let tempValue;
-  while (currentIndex != 0) {
+  while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
@@ -17,11 +17,6 @@ function shuffle() {
 
 const shuffledMissions = shuffle()
 
-const missions1 = [...shuffledMissions].splice(0, 3)
-const missions2 = [...shuffledMissions].splice(3, 3)
-const missions3 = [...shuffledMissions].splice(6, 3)
-const missions4 = [...shuffledMissions].splice(9, 3)
-
 
 
 const initState = {
@@ -31,10 +26,10 @@ const initState = {
   toTransform: [],
   locked: false,
   players: [
-    {player: 1, isNext: true, location: 0, goal: missions1},
-    {player: 2, isNext: false, location: 1, goal: missions2},
-    {player: 3, isNext: false, location: 2, goal: missions3},
-    {player: 4, isNext: false, location: 3, goal: missions4}
+    {player: 1, isNext: true, location: 0, score: 0, missions: [...shuffledMissions].splice(0, 3), goal: [missions[0]]},
+    {player: 2, isNext: false, location: 1, score: 0, missions: [...shuffledMissions].splice(3, 3), goal: [missions[0]]},
+    {player: 3, isNext: false, location: 2, score: 0, missions: [...shuffledMissions].splice(6, 3), goal: [missions[0]]},
+    {player: 4, isNext: false, location: 3, score: 0, missions: [...shuffledMissions].splice(9, 3), goal: [missions[0]]}
   ]
 }
 const gameReducer = (state = initState, action) => {
@@ -63,17 +58,22 @@ const gameReducer = (state = initState, action) => {
       const movedState = {...state, players: newestPlayers}
       return movedState;
     case 'MISSION_DONE':
-      let playerNew = action.player
-      let playersNew = Object.assign(state.players)
-      let newestPlayers1 = playersNew.map(each => {
-        if(each.player === playerNew.player) {
-          each.goal.filter(id => {
-            return id !== action.goalTileId
-          })
-        }
-        return each.player === playerNew.player ? playerNew : each
+      let newPlayer = action.player
+      let newPlayerMissions = newPlayer.goal.filter(id => {return id !== action.goalTileId })
+      console.log(newPlayerMissions)
+      newPlayer.score += 1
+      let oldGoalIndex = newPlayer.missions.findIndex((value) => value === action.goalTileId)
+      console.log(oldGoalIndex)
+      newPlayerMissions.unshift(newPlayer.missions[oldGoalIndex + 1])
+      newPlayer.goal = newPlayerMissions
+      console.log(newPlayerMissions)
+      let newestPlayers1 = state.players.map(player => {
+        console.log(player)
+        console.log(newPlayer)
+        return player.player === newPlayer.player ? newPlayer : player
       })
-      let theNewestState = {...state, players: newestPlayers1}
+      const playersNewState = {...state, players: newestPlayers1}
+      return playersNewState
     case 'CHANGE_PHASE':
       let phaseState = Object.assign({}, state)
       if(phaseState.phase === 1) {

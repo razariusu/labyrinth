@@ -38,7 +38,6 @@ class Game extends Component {
       const currentTile = Object.values(this.props.board).find(obj => {return obj.tileId === currentTileId})
       const path = initiateCheck(currentTile, clickedTile, board)
       const goalTileId = path.length > 0 ? board[path[path.length - 1]].tileId : null
-      console.log(player)
       this.props.movePlayer(goalTileId, player, path)
 
     }
@@ -61,7 +60,7 @@ class Game extends Component {
     return(
       <div className='container'>
         <Board board={this.props.board} extraTile={this.props.extraTile} handleRotation={this.handleRotation} game={this.props.game} handleClick={this.handleClick} resetPath={this.resetPath} transformation={this.props.game.transformation}/>
-        <Card />
+        <Card content={this.props.game.players[0]}/>
       </div>
     )
   }

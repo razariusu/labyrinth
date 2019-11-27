@@ -54,7 +54,6 @@ export function initiateCheck(currentTile, clickedTile, board) {
   else {
     alert('Path found! ' + passable)
   }
-  console.log(passable)
   return passable
 }
 
