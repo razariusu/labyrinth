@@ -19,6 +19,10 @@ class Game extends Component {
       const board = this.props.board
       const boardAr = Object.values(board)
       const x = parseInt(boardAr.findIndex(el => {return el.tileId === clickedTile.tileId}))
+      if(this.props.game.unclickable === x) {
+        alert('Cannot return move')
+        return
+      }
       let style = isMovable(clickedTile, x, onBoard, inRow)
       let nextTo = positions[x]
       if(style) {
@@ -26,6 +30,7 @@ class Game extends Component {
         // this.props.setTransformation(style)
         this.props.addToBoard(clickedTile, style)
       }
+      
     }
 
     else if(this.props.game.phase === 1 && this.props.game.locked === false) {

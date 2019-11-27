@@ -1,4 +1,6 @@
-const initState = {tile: {tileId: 25, goal: 'monster', movable: true, rotation: 0, type: 'open', T: true, R: true, B: true, L: false},
+import {extraTile} from '../../functions'
+
+const initState = {tile: extraTile,
                   position: {top: '1000px', left: '320px'}}
 
 const extraReducer = (state = initState, action) => {

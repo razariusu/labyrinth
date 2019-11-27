@@ -22,14 +22,15 @@ const shuffledMissions = shuffle()
 const initState = {
   phase: 0,
   path: [],
+  unclickable: null,
   transformation: {transform: 'none'},
   toTransform: [],
   locked: false,
   players: [
     {player: 1, isNext: true, location: 0, score: 0, missions: [...shuffledMissions].splice(0, 3), goal: [missions[0]]},
-    {player: 2, isNext: false, location: 1, score: 0, missions: [...shuffledMissions].splice(3, 3), goal: [missions[0]]},
-    {player: 3, isNext: false, location: 2, score: 0, missions: [...shuffledMissions].splice(6, 3), goal: [missions[0]]},
-    {player: 4, isNext: false, location: 3, score: 0, missions: [...shuffledMissions].splice(9, 3), goal: [missions[0]]}
+    {player: 2, isNext: false, location: 4, score: 0, missions: [...shuffledMissions].splice(3, 3), goal: [missions[0]]},
+    {player: 3, isNext: false, location: 20, score: 0, missions: [...shuffledMissions].splice(6, 3), goal: [missions[0]]},
+    {player: 4, isNext: false, location: 24, score: 0, missions: [...shuffledMissions].splice(9, 3), goal: [missions[0]]}
   ]
 }
 const gameReducer = (state = initState, action) => {
@@ -92,6 +93,7 @@ const gameReducer = (state = initState, action) => {
       const newTransformation = Object.assign({}, state)
       newTransformation.transformation = action.style
       newTransformation.toTransform = action.toChange
+      newTransformation.unclickable = action.toChange[action.toChange.length - 1]
       newTransformation.locked = true
       return newTransformation
     case 'ANIMATE_TILES':

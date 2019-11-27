@@ -75,7 +75,7 @@
   flex-wrap: wrap; */
   width: 800px;
   height: 800px;
-  margin: 50px auto;
+  margin: 180px auto;
 
 }
 
@@ -127,12 +127,12 @@
 
 .player {
   position: absolute;
-  width: 80px;
-  height: 80px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   z-index: 99999;
-  top: 40px;
-  left: 40px;
+  top: 60px;
+  left: 60px;
   transition: all 1s;
   transition-timing-function: linear;
 }
@@ -164,7 +164,7 @@
 
 .mission-card {
   position: absolute;
-  top: 900px;
+  top: 800px;
   left: 50px;
   height: 300px;
   width: 200px;
