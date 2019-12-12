@@ -6,13 +6,28 @@ import Card from './Card'
 import {connect} from 'react-redux'
 import { addToBoard, test, beginPositioning } from '../../store/actions/tileActions'
 import { rotateTile } from '../../store/actions/extraActions'
-import { movePlayer, resetPath, setTransformation } from '../../store/actions/gameActions'
+import { movePlayer, resetPath, setTransformation, fetchNews, setTiles, setExtra } from '../../store/actions/gameActions'
 import {isMovable, initiateCheck, checkSides, isGoalReached, updateTileWithRealSides, positions} from '../../functions'
 import {board, onBoard, inRow} from '../../store/reducers/tilesReducer'
+import socket from '../../socket'
 
 
 class Game extends Component {
+  constructor(props) {
+    super(props)
+  }
 
+  componentDidMount(){   
+    // get tiles from server
+    // update store
+    let incomingData
+    socket.on('tileState', (data) => {
+      console.log(data)
+      this.props.setTiles(data.tileState)
+      this.props.setExtra(data.extraTile)
+    })
+  
+}
   // if socketId === currentPlayer
   handleClick = (clickedTile) => {
     if(this.props.game.phase === 0 && this.props.game.locked === false) {
@@ -81,12 +96,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchNews: () => dispatch(fetchNews()),
     addToBoard: (clickedTile, style) => dispatch(addToBoard(clickedTile, style)),
     rotateTile: (tile) => dispatch(rotateTile(tile)),
     movePlayer: (goalTileId, player, path) => dispatch(movePlayer(goalTileId, player, path)),
     resetPath: () => dispatch(resetPath()),
     setTransformation: (style) => dispatch(setTransformation(style)),
-    beginPositioning: (x, nextTo, style) => dispatch(beginPositioning(x, nextTo, style))
+    beginPositioning: (x, nextTo, style) => dispatch(beginPositioning(x, nextTo, style)),
+    setTiles: (data) => dispatch(setTiles(data)),
+    setExtra: (extraTile) => dispatch(setExtra(extraTile))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Game)

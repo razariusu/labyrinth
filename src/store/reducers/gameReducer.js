@@ -1,3 +1,5 @@
+import actionTypes from '../constants/actionTypes'
+
 const missions = [0, 2, 4, 5, 7, 11, 14, 16, 18, 19, 20, 24]
 
 function shuffle() {
@@ -20,6 +22,7 @@ const shuffledMissions = shuffle()
 
 
 const initState = {
+  news: [],
   phase: 0,
   path: [],
   unclickable: null,
@@ -35,21 +38,25 @@ const initState = {
 }
 const gameReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'MOVE_PLAYER':
+    case actionTypes.NEWS_RECEIVED:
+      const testState = Object.assign({}, state)
+      testState.news = action.news
+      return testState
+    case actionTypes.MOVE_PLAYER:
       const newState = Object.assign({}, action.newGameState);
       return newState
-    case 'UPDATE_PLAYER':
+    case actionTypes.UPDATE_PLAYER:
       const newPlayers = Object.assign({}, state)
       newPlayers.players.map((player, i) => {
         return player.location = action.newPlayerLocs[i]
       })
       return newPlayers;
-    case 'UPDATE_PATH':
+    case actionTypes.UPDATE_PATH:
       const newPathState = Object.assign({}, state)
       newPathState.path = action.path
       newPathState.locked = true
       return newPathState
-    case 'FINISH_MOVE':
+    case actionTypes.FINISH_MOVE:
       let player = action.player
       player.location = action.goalTileId
       let players = Object.assign(state.players)
@@ -58,7 +65,7 @@ const gameReducer = (state = initState, action) => {
       })
       const movedState = {...state, players: newestPlayers}
       return movedState;
-    case 'MISSION_DONE':
+    case actionTypes.MISSION_DONE:
       let newPlayer = action.player
       let newPlayerMissions = newPlayer.goal.filter(id => {return id !== action.goalTileId })
       console.log(newPlayerMissions)
@@ -75,7 +82,7 @@ const gameReducer = (state = initState, action) => {
       })
       const playersNewState = {...state, players: newestPlayers1}
       return playersNewState
-    case 'CHANGE_PHASE':
+    case actionTypes.CHANGE_PHASE:
       let phaseState = Object.assign({}, state)
       if(phaseState.phase === 1) {
         phaseState.phase = 0;
@@ -85,27 +92,27 @@ const gameReducer = (state = initState, action) => {
       }
       phaseState.locked = false
       return phaseState
-    case 'RESET_PATH':
+    case actionTypes.RESETH_PATH:
       let resetState = Object.assign({}, state)
       resetState.path = []
       return resetState
-    case 'SET_TRANSFORMATION':
+    case actionTypes.SET_TRANSFORMATION:
       const newTransformation = Object.assign({}, state)
       newTransformation.transformation = action.style
       newTransformation.toTransform = action.toChange
       newTransformation.unclickable = action.toChange[action.toChange.length - 1]
       newTransformation.locked = true
       return newTransformation
-    case 'ANIMATE_TILES':
+    case actionTypes.ANIMATE_TILES:
       let animatedState = Object.assign({}, state)
       animatedState.toTransform = action.toChange
       return animatedState
-    case 'RESTORE_ANIMATION':
+    case actionTypes.RESTORE_ANIMATION:
       let restoredState = Object.assign({}, state)
       restoredState.transformation = {transform: 'none'}
       restoredState.toTransform = []
       return restoredState
-    case 'DO_ALL':
+    case actionTypes.DO_ALL:
       let doAllState = Object.assign({}, state)
       doAllState.transformation = {transform: 'none'}
       doAllState.toTransform = []

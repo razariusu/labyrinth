@@ -1,68 +1,73 @@
 
 // board init state
-const curved = {type: 'curved', T: true, R: true, B: false, L: false};
-const straight = {type: 'straight', T: true, R: false, B: true, L: false};
-const open = {type: 'open', T: true, R: true, B: true, L: false};
+// const curved = {type: 'curved', T: true, R: true, B: false, L: false};
+// const straight = {type: 'straight', T: true, R: false, B: true, L: false};
+// const open = {type: 'open', T: true, R: true, B: true, L: false};
 
-const allTiles = [
-  {tileId: 0, fixed: true, goal: null, rotation: 1, ...curved},
-  {tileId: 1, goal: null, rotation: 3, ...straight},
-  {tileId: 2, fixed: true, goal: null, rotation: 1, ...straight},
-  {tileId: 3, goal: null, rotation: 0, ...curved},
-  {tileId: 4, fixed: true, goal: null, rotation: 2, ...curved},
-  {tileId: 5, goal: null, rotation: 2, ...straight},
-  {tileId: 6, goal: null, rotation: 0, ...curved},
-  {tileId: 7, goal: null, rotation: 0, ...straight},
-  {tileId: 8, goal: null, rotation: 0, ...curved},
-  {tileId: 9, goal: null, rotation: 0, ...curved},
-  {tileId: 10, fixed: true, goal: null, rotation: 0, ...straight},
-  {tileId: 11, goal: null, rotation: 0, ...curved},
-  {tileId: 12, fixed: true, goal: null, rotation: 0, ...open},
-  {tileId: 13, goal: 'dragon', rotation: 0, ...open},
-  {tileId: 14, fixed: true, goal: null, rotation: 0, ...straight},
-  {tileId: 15, goal: null, rotation: 0, ...curved},
-  {tileId: 16, goal: null, rotation: 1, ...open},
-  {tileId: 17, goal: null, rotation: 0, ...curved},
-  {tileId: 18, goal: null, rotation: 0, ...curved},
-  {tileId: 19, goal: null, rotation: 0, ...straight},
-  {tileId: 20, fixed: true, goal: null, rotation: 0, ...curved},
-  {tileId: 21, goal: null, rotation: 0, ...curved},
-  {tileId: 22, fixed: true, goal: null, rotation: 1, ...straight},
-  {tileId: 23, goal: null, rotation: 0, ...straight},
-  {tileId: 24, fixed: true, goal: null, rotation: 3, ...curved},
-  {tileId: 25, goal: null, movable: true, rotation: 0, ...open}
-  ]
+// const allTiles = [
+//   {tileId: 0, fixed: true, goal: null, rotation: 1, ...curved},
+//   {tileId: 1, fixed: false, goal: null, rotation: 3, ...straight},
+//   {tileId: 2, fixed: true, goal: null, rotation: 1, ...straight},
+//   {tileId: 3, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 4, fixed: true, goal: null, rotation: 2, ...curved},
+//   {tileId: 5, fixed: false, goal: null, rotation: 2, ...straight},
+//   {tileId: 6, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 7, fixed: false, goal: null, rotation: 0, ...straight},
+//   {tileId: 8, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 9, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 10, fixed: true, goal: null, rotation: 0, ...straight},
+//   {tileId: 11, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 12, fixed: true, goal: null, rotation: 0, ...open},
+//   {tileId: 13, fixed: false, goal: 'dragon', rotation: 0, ...open},
+//   {tileId: 14, fixed: true, goal: null, rotation: 0, ...straight},
+//   {tileId: 15, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 16, fixed: false, goal: null, rotation: 1, ...open},
+//   {tileId: 17, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 18, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 19, fixed: false, goal: null, rotation: 0, ...straight},
+//   {tileId: 20, fixed: true, goal: null, rotation: 0, ...curved},
+//   {tileId: 21, fixed: false, goal: null, rotation: 0, ...curved},
+//   {tileId: 22, fixed: true, goal: null, rotation: 1, ...straight},
+//   {tileId: 23, fixed: false, goal: null, rotation: 0, ...straight},
+//   {tileId: 24, fixed: true, goal: null, rotation: 3, ...curved},
+//   {tileId: 25, fixed: false, goal: null, movable: true, rotation: 0, ...open}
+//   ]
 
-function shuffle() {
-  const tileIds = [1, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 21, 23, 25]
-  const fixedTileIds = [0, 2, 4, 10, 12, 14, 20, 22, 24]
-  let currentIndex = tileIds.length;
-  let randomIndex;
-  let tempValue;
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+// function shuffle() {
+//   const tileIds = [1, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 21, 23, 25]
+//   const fixedTileIds = [0, 2, 4, 10, 12, 14, 20, 22, 24]
+//   let currentIndex = tileIds.length;
+//   let randomIndex;
+//   let tempValue;
+//   while (currentIndex !== 0) {
+//     randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex--;
     
-    tempValue = tileIds[currentIndex];
-    tileIds[currentIndex] = tileIds[randomIndex];
-    tileIds[randomIndex] = tempValue;
-  }
-  fixedTileIds.forEach(id => {
-    tileIds.splice(id, 0, id)
-  })
-  return tileIds;
-}
+//     tempValue = tileIds[currentIndex];
+//     tileIds[currentIndex] = tileIds[randomIndex];
+//     tileIds[randomIndex] = tempValue;
+//   }
+//   fixedTileIds.forEach(id => {
+//     tileIds.splice(id, 0, id)
+//   })
+//   return tileIds;
+// }
 
-const shuffledMissions = shuffle()
-const extraTileId = shuffledMissions[shuffledMissions.length - 1]
-const mappedTiles = shuffledMissions.map((tileId, index) => {
-  return allTiles.find(tile => tile.tileId === tileId)
-})
-export const extraTile = mappedTiles.pop()
-export const tileState = {}
-mappedTiles.forEach((tile, i) => {
-  tileState[i] = tile
-})
+// const shuffledMissions = shuffle()
+// const mappedTiles = shuffledMissions.map((tileId, index) => {
+//   return allTiles.find(tile => tile.tileId === tileId)
+// })
+// export const extraTile = mappedTiles.pop()
+// export const tileState = {}
+// mappedTiles.forEach((tile, i) => {
+//   console.log(tile.fixed)
+  
+//   tileState[i] = tile;
+//   if(tileState[i].fixed === false) {
+//     tileState[i].rotation = Math.floor(Math.random() * 4)
+//   }
+  
+// })
 
 
 

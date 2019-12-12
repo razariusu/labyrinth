@@ -1,6 +1,39 @@
+import actionTypes from '../constants/actionTypes'
+import socket from '../../socket'
+
+export function fetchNews(){
+  return dispatch => {
+      return fetch(`/news`)
+      .then( (response) => response.json() )
+      .then( (data) => dispatch(newsReceived(data)))
+      .catch( (e) => console.log(e) );
+  }    
+}
+
+export function setTiles(data) {
+  return {
+    type: actionTypes.SET_TILES,
+    data
+  }
+}
+
+export function setExtra(extraTile) {
+  return {
+    type: actionTypes.SET_EXTRA,
+    extraTile
+  }
+}
+
+function newsReceived(news){
+  return {
+      type: actionTypes.NEWS_RECEIVED,
+      news
+  }
+}
+
 export const updatePlayer = (newPlayerLocs) => {
   return {
-    type: 'UPDATE_PLAYER',
+    type: actionTypes.UPDATE_PLAYER,
     newPlayerLocs
   }
 }
@@ -28,14 +61,14 @@ export const movePlayer = (goalTileId, player, path) => {
 
 export const updatePath = (path) => {
   return {
-    type: 'UPDATE_PATH',
+    type: actionTypes.UPDATE_PATH,
     path
   }
 }
 
 export const finishMove = (goalTileId, player) => {
   return {
-    type: 'FINISH_MOVE',
+    type: actionTypes.FINISH_MOVE,
     goalTileId,
     player
   }
@@ -43,19 +76,19 @@ export const finishMove = (goalTileId, player) => {
 
 export const changePhase = () => {
   return {
-    type: 'CHANGE_PHASE'
+    type: actionTypes.CHANGE_PHASE
   }
 }
 
 export const resetPath = () => {
   return {
-    type: 'RESET_PATH'
+    type: actionTypes.RESETH_PATH
   }
 }
 
 export const setTransformation = (style, toChange) => {
   return {
-    type: 'SET_TRANSFORMATION',
+    type: actionTypes.SET_TRANSFORMATION,
     style,
     toChange
   }
@@ -63,14 +96,14 @@ export const setTransformation = (style, toChange) => {
 
 export const animateTiles = (toChange) => {
   return {
-    type: 'ANIMATE_TILES',
+    type: actionTypes.ANIMATE_TILES,
     toChange
   }
 }
 
 export const missionDone = (player, goalTileId) => {
   return {
-    type: 'MISSION_DONE',
+    type: actionTypes.MISSION_DONE,
     player,
     goalTileId
   }

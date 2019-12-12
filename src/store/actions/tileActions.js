@@ -1,3 +1,4 @@
+import actionTypes from '../constants/actionTypes'
 import {movePlayer} from './gameActions'
 import {changeExtra, positionExtra} from './extraActions'
 import {onBoard, inRow} from '../reducers/tilesReducer'
@@ -6,7 +7,6 @@ import {updatePlayer, changePhase, setTransformation, animateTiles, restoreAnima
 
 
 export const addToBoard = (clickedTile, style) => {
-  
   return (dispatch, getState) => {
     
     const toChange = []
@@ -82,7 +82,7 @@ export const addToBoard = (clickedTile, style) => {
 
 // export const finishAdd = (newBoard) => {
 //   return {
-//     type: 'FINISH_ADD',
+//     type: actionTypes.FINISH_ADD,
 //     newBoard
 //   }
 // }
@@ -119,7 +119,7 @@ export const beginPositioning = (x, nextTo, style) => {
 
 const doAll = (newBoard, newExtra) => {
   return {
-    type: 'DO_ALL',
+    type: actionTypes.DO_ALL,
     newBoard,
     newExtra
   }

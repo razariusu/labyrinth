@@ -1,20 +1,22 @@
+import actionTypes from '../constants/actionTypes'
+
 export const rotateTile = (extraTile) => {
   return {
-    type: 'ROTATE_TILE',
+    type: actionTypes.ROTATE_TILE,
     extraTile
   }
 }
 
 // export const changeExtra = (newExtraTile) => {
 //   return {
-//     type: 'CHANGE_EXTRA',
+//     type: actionTypes.CHANGE_EXTRA,
 //     newExtraTile
 //   }
 // }
 
 export const positionExtra = (newExtraPosition) => {
   return {
-    type: 'POSITION_EXTRA',
+    type: actionTypes.POSITION_EXTRA,
     newExtraPosition
   }
 }

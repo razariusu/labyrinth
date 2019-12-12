@@ -1,11 +1,12 @@
-import {extraTile} from '../../functions'
+import actionTypes from '../constants/actionTypes'
+// import {extraTile} from '../../functions'
 
-const initState = {tile: extraTile,
+const initState = {tile: 0,
                   position: {top: '1000px', left: '320px'}}
 
 const extraReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'ROTATE_TILE':
+    case actionTypes.ROTATE_TILE:
     let rotatedState = Object.assign({}, state)
     if(action.extraTile.rotation === 3) {
       rotatedState.tile.rotation = 0;
@@ -15,7 +16,7 @@ const extraReducer = (state = initState, action) => {
       }
     return rotatedState;
 
-    case 'CHANGE_EXTRA':
+    case actionTypes.CHANGE_EXTRA:
     let newTileState = Object.assign({}, state);
     newTileState.tile = action.newExtraTile
     newTileState.position = {
@@ -23,7 +24,7 @@ const extraReducer = (state = initState, action) => {
     left: '320px'
     }
     return newTileState;
-    case 'DO_ALL':
+    case actionTypes.DO_ALL:
     let doAllState = Object.assign({}, state)
     doAllState.tile = action.newExtra
     console.log(doAllState.tile)
@@ -32,12 +33,16 @@ const extraReducer = (state = initState, action) => {
       left: '320px'
     }
     return doAllState
-    case 'POSITION_EXTRA':
+    case actionTypes.POSITION_EXTRA:
     let newExtraState = Object.assign({}, state)
     console.log(newExtraState)
     newExtraState.position = action.newExtraPosition
     console.log(newExtraState)
     return newExtraState
+    case actionTypes.SET_EXTRA:
+      const newestState = Object.assign({}, state)
+      newestState.tile = action.extraTile
+      return newestState
     default:
     return state
   }
