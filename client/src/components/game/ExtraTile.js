@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
-import { rotateTile } from '../../store/actions/tileActions.js.js'
+import { rotateTile } from '../../store/actions/tileActions.js'
 
 
 const ExtraTile = (props) => {
