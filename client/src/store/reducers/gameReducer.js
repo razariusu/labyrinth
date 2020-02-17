@@ -11,7 +11,7 @@ const initState = {
   unclickable: null,
   transformation: {transform: 'none'},
   toTransform: [],
-  locked: false,
+  locked: true,
   goal: null,
   completed: [],
   goalReached: null,

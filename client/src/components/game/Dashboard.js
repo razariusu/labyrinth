@@ -8,8 +8,6 @@ import Tutorial from './Tutorial'
 const Dashboard = (props) => {
     // todo: cookies, flexbox for dashboard
     const game = props.game
-    const board = props.board
-    const ordinalNumber = game.joined + 1
     console.log(props)
     const [modal, setModal] = useState(false)
     const [msg, setMsg] = useState(game.message)

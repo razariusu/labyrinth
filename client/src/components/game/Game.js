@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import Board from './Board'
-import ExtraTile from './ExtraTile'
-import Player from './Player'
 import Dashboard from './Dashboard'
-import Card from './Card'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import { addToBoard, test, beginPositioning } from '../../store/actions/tileActions'
+import { addToBoard, beginPositioning } from '../../store/actions/tileActions'
 import { rotateTile } from '../../store/actions/extraActions'
 import { movePlayer, resetPath, setTransformation, setTiles, setExtra, setGoal, changePlayer, connectNewPlayer, updatePlayerNumber, updatePlayerName, updatePlayerCounter, startGame, updateMessage, updatePlayersObject, changePhase, updateReachedGoals, gameOver } from '../../store/actions/gameActions'
 import {isMovable, initiateCheck, checkSides, isGoalReached, updateTileWithRealSides, positions, missions} from '../../functions'
-import {board, onBoard, inRow} from '../../store/reducers/tilesReducer'
-import socket from '../../socket'
+import {onBoard, inRow} from '../../store/reducers/tilesReducer'
 
 
 class Game extends Component {
@@ -111,16 +107,18 @@ class Game extends Component {
   
       else if(this.props.game.phase === 1 && this.props.game.locked === false) {
         const board = Object.values(this.props.board)
-        const player = Object.values(this.props.game.players).find(obj => obj.player == this.props.game.playerNumber)
-        const playerNumber = player.player
-        const currentTileId = player.location
-        const currentTile = Object.values(this.props.board).find(obj => {return obj.tileId === currentTileId})
-        const path = initiateCheck(currentTile, clickedTile, board)
-        const goalTileId = path.length > 0 ? board[path[path.length - 1]].tileId : null
-        this.props.movePlayer(goalTileId, playerNumber, path)
-      }
+        if(this.props.game.playerNumber) {
+          const player = Object.values(this.props.game.players).find(obj => obj.player == this.props.game.playerNumber)
+          const playerNumber = player.player
+          const currentTileId = player.location
+          const currentTile = Object.values(this.props.board).find(obj => {return obj.tileId === currentTileId})
+          const path = initiateCheck(currentTile, clickedTile, board)
+          const goalTileId = path.length > 0 ? board[path[path.length - 1]].tileId : null
+          this.props.movePlayer(goalTileId, playerNumber, path)
+        }
       }
     }
+  }
     
   }
   handleRotation = (rotation) => {

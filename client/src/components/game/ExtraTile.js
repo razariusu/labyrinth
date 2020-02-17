@@ -1,6 +1,4 @@
-import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
-import { rotateTile } from '../../store/actions/tileActions.js'
+import React from 'react'
 
 
 const ExtraTile = (props) => {
@@ -20,7 +18,7 @@ const ExtraTile = (props) => {
   return(
       <div className='extraDiv' style={props.extraTile.position}>
         <div className={`${props.transformation.transform !== 'none' ? 'toAnimate' : null}`} style={props.transformation}>
-          <div className={`tile extraTile`} style={{transform: `rotate(${degrees}deg)`}} onClick={() => props.handleRotation(props.extraTile.tile.rotation)}><img className='tileImg' src={background}></img></div>
+          <div className={`tile extraTile`} style={{transform: `rotate(${degrees}deg)`}} onClick={() => props.handleRotation(props.extraTile.tile.rotation)}><img alt={props.extraTile.tile.goal ? props.extraTile.tile.goal : props.extraTile.tile.type}className='tileImg' src={background} alt></img></div>
         </div>
       </div>
 

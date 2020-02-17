@@ -1,4 +1,4 @@
-import React, {PureComponent, useState, useEffect, useLayoutEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {positions} from '../../functions'
 
 const Player = (props) => {
