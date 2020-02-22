@@ -1,9 +1,5 @@
 import io from 'socket.io-client';
-const socket = io({
-    query: {
-      token: 'nekotamo'
-    }
-  });
+const socket = io();
 
 export default socket;
 

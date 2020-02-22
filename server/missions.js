@@ -48,12 +48,5 @@ function shuffle() {
 }
 
 const shuffledMissions = shuffle()
-console.log(shuffledMissions)
-const setGoal = (prevGoal) => {
-  // remove first in array after setting
-  return shuffledMissions.shift()
-    // let prevIndex = shuffledMissions.findIndex(id => id === prevGoal)
-    // return shuffledMissions[prevIndex + 1]
-}
 
 module.exports = {shuffledMissions, missions}

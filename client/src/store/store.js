@@ -7,7 +7,4 @@ export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(t
 
 window.store = store
 
-// store.dispatch(selectSubreddit('reactjs'))
-// store.dispatch(fetchPostsIfNeeded('reactjs')).then(() => console.log(store.getState()))
-
 export default store;

@@ -3,8 +3,8 @@ import {positions} from '../../functions'
 
 const Player = (props) => {
   
-  const path = props.path;
-  const [style, setStyle] = useState(props.style)
+  const {player, occupied, style, transformation, path} = props
+  const [styleState, setStyleState] = useState(style)
   const [playerClass, setPlayerClass] = useState('playerDiv')
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Player = (props) => {
       let i = 0
       const loop = () => {
         setTimeout(() => {
-          setStyle(path[i])
+          setStyleState(path[i])
           i++
           if(i < path.length) {
             loop()
@@ -22,7 +22,6 @@ const Player = (props) => {
         }, 300)
       }
       loop()
-      
     }
     
     return (() => {
@@ -33,17 +32,17 @@ const Player = (props) => {
   // when player is on moved tile
   useEffect(() => {
     if(path.length < 1) {
-      setStyle(props.style)
+      setStyleState(style)
       console.log('style changed')
     }
     return
-  }, [props.style])
+  }, [style])
 
 
   return(
-      <div className={playerClass} style={positions[style]}>
-        <div className={`${props.transformation.transform !== 'none' ? 'toAnimate' : null}`} style={props.transformation}>
-          <div className={`player player${props.player.player} ${props.occupied}`} style={{backgroundColor: `${props.player.color}`}}></div>
+      <div className={playerClass} style={positions[styleState]}>
+        <div className={`${transformation.transform !== 'none' ? 'toAnimate' : null}`} style={transformation}>
+          <div className={`player player${player.player} ${occupied}`} style={{backgroundColor: `${player.color}`}}></div>
         </div>
       </div>
     )

@@ -1,19 +1,22 @@
+export const inRow = 7;
+export const onBoard = 49;
+
 // check if clicked tile movable
-export const isMovable = (x, onBoard, inRow) => {
+export const isMovable = (clickedIndex, onBoard, inRow) => {
   let style = {transform: 'none'};
   let distance = '82px'
 
-  if (x % 2 === 1) {
-    if (x < inRow) {
+  if (clickedIndex % 2 === 1) {
+    if (clickedIndex < inRow) {
       style.transform = `translateY(${distance})`
       return style
-    } else if (x >= onBoard - inRow) {
+    } else if (clickedIndex >= onBoard - inRow) {
       style.transform = `translateY(-${distance})`
       return style
-    } else if (x % inRow === 0) {
+    } else if (clickedIndex % inRow === 0) {
       style.transform = `translateX(${distance})`
       return style
-    } else if ((x + 1) % inRow === 0) {
+    } else if ((clickedIndex + 1) % inRow === 0) {
       style.transform = `translateX(-${distance})`
       return style
     } else {
@@ -24,16 +27,10 @@ export const isMovable = (x, onBoard, inRow) => {
   }
 }
 
-const inRow = 7;
-const onBoard = 49;
-let currentTileIndex;
-
-
+// check if path exists
 export function initiateCheck(currentTile, clickedTile, board) {
   let flagged = []
   let goalReached = false;
-  let currentTileIndex;
-  let currentTileId;
   let toAdd = board.findIndex(el => {return el.tileId === currentTile.tileId})
   let passable = [toAdd]
 
@@ -56,7 +53,6 @@ export function checkSides(currentTile, clickedTile, passable, board, goalReache
     let belowIndex = parseInt(currentTileIndex) + 7;
     let rightIndex = parseInt(currentTileIndex) + 1;
     let leftIndex = parseInt(currentTileIndex) - 1;
-    let isPathEnded = true;
 
     // check if top is true and if there are tiles above
     if (!goalReached && aboveIndex >= 0 && !flagged.includes(board[aboveIndex].tileId) && updatedTile.T) {
@@ -66,7 +62,7 @@ export function checkSides(currentTile, clickedTile, passable, board, goalReache
       let toCheck = board[aboveIndex]
       toCheck = updateTileWithRealSides(toCheck)
       if (toCheck.B) {
-        isPathEnded = false;
+
         passable.push(aboveIndex)
         console.log('top has down true')
         if (checkSides(board[aboveIndex], clickedTile, passable, board, goalReached, flagged) === true) {
@@ -82,7 +78,7 @@ export function checkSides(currentTile, clickedTile, passable, board, goalReache
       let toCheck = board[rightIndex]
       toCheck = updateTileWithRealSides(toCheck)
       if (toCheck.L) {
-        isPathEnded = false;
+
         passable.push(rightIndex)
         console.log('right has left true')
         if (checkSides(board[rightIndex], clickedTile, passable, board, goalReached, flagged) === true) {
@@ -98,7 +94,7 @@ export function checkSides(currentTile, clickedTile, passable, board, goalReache
       let toCheck = board[belowIndex]
       toCheck = updateTileWithRealSides(toCheck)
       if (toCheck.T) {
-        isPathEnded = false;
+
         passable.push(belowIndex)
 
         console.log('bottom has top true')
@@ -114,7 +110,7 @@ export function checkSides(currentTile, clickedTile, passable, board, goalReache
       let toCheck = board[leftIndex]
       toCheck = updateTileWithRealSides(toCheck)
       if (toCheck.R) {
-        isPathEnded = false;
+
         passable.push(leftIndex)
 
         console.log('left has right true')
@@ -159,10 +155,6 @@ export function isGoalReached(x, y) {
     return false
   }
 }
-
-
-let distance = '82px'
-
 
 export const positions = {
   0: {top: '0px', left: '0px'},
@@ -215,4 +207,3 @@ export const positions = {
   47: {top: '492px', left: '410px'},
   48: {top: '492px', left: '492px'}
 }
-

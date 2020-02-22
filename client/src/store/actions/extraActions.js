@@ -7,13 +7,6 @@ export const rotateTile = (rotation) => {
   }
 }
 
-// export const changeExtra = (newExtraTile) => {
-//   return {
-//     type: actionTypes.CHANGE_EXTRA,
-//     newExtraTile
-//   }
-// }
-
 export const positionExtra = (newExtraPosition, rotation) => {
   return {
     type: actionTypes.POSITION_EXTRA,

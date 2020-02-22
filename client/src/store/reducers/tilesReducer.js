@@ -21,14 +21,4 @@ const tilesReducer = (state = initState, action) => {
   }
 }
 
-// function getKeyByValue(object, value) {
-//   return Object.keys(object).find(key => object[key] === value);
-// }
-
-export const board = Object.assign({}, initState)
-export const onBoard = 49
-export const inRow = 7
-
-
-
 export default tilesReducer

@@ -1,22 +1,19 @@
 import React from 'react'
 
 const Tile = (props) => {
-
-  let degrees;
-  if(props.tile) {
-    degrees = parseInt(props.tile.rotation) * 90;
-  }
+  const {tile, transformation, style, clickable, hover, handleClick} = props
   let background;
-  if(props.tile.goal) {
-    background = `/img/tiles/${props.tile.goal}.png`
-  }
-  else {
-    background = `/img/tiles/${props.tile.type}.png`
+  let nameToAppend = `${tile.goal ? tile.goal : tile.type}`
+  
+  background = `/img/tiles/${nameToAppend}.png`
+  let degrees;
+  if(tile) {
+    degrees = parseInt(tile.rotation) * 90;
   }
 
   return (
-    <div className={`${props.transformation.transform !== 'none' ? 'toAnimate' : null} tileDiv`} style={Object.assign({}, props.style, props.transformation)}>
-        <div className={` ${props.transformation.transform === 'none' ? props.clickable : null}  ${props.hover} tile `}  onClick={() => props.handleClick(props.tile)}><img className='tileImg' src={background} style={{transform: `rotate(${degrees}deg)`}}></img>
+    <div className={`${transformation.transform !== 'none' ? 'toAnimate' : null} tileDiv`} style={Object.assign({}, style, transformation)}>
+        <div className={` ${transformation.transform === 'none' ? clickable : null}  ${hover} tile `}  onClick={() => handleClick(tile)}><img className='tileImg' alt={nameToAppend} src={background} style={{transform: `rotate(${degrees}deg)`}}></img>
       </div>
     </div>
   )

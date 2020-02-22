@@ -6,8 +6,7 @@ import Tutorial from './Tutorial'
 
 
 const Dashboard = (props) => {
-    // todo: cookies, flexbox for dashboard
-    const game = props.game
+    const {game} = props
     console.log(props)
     const [modal, setModal] = useState(false)
     const [msg, setMsg] = useState(game.message)
@@ -15,11 +14,9 @@ const Dashboard = (props) => {
     const showModal = () => {
         setModal(true)
     }
-
     const hideModal = () => {
         setModal(false)
     }
-
     useEffect(() => {
         if(game.message === `${game.name}'s turn` && game.phase === 0) {
             if(game.phase === 0) {
@@ -28,8 +25,10 @@ const Dashboard = (props) => {
             else if(game.phase === 1) {
                 setMsg('Now move the player.')
             }
+            else {
+                setMsg('Unknown action.')
+            }
         }
-        
         else {
             setMsg(game.message)
         }
@@ -54,37 +53,31 @@ const Dashboard = (props) => {
         }
     }
     return (
-        // colored circle with name
-        // backend - send player objects on connect
         <div className='dashboard'>
             <h1>Labyrinth Game</h1>
             <Tutorial showModal={modal} handleClose={hideModal}/>
-            <a className='tutorialLink' onClick={showModal}>How to play</a>
+            <button className='tutorialLink' onClick={showModal}>How to play</button>
             <div className='scoreboard'>
                 {game.players.map(player => {
-                    return <PlayerInfo player={player} toPlay={game.toPlay} playerNumber={game.playerNumber}/>
+                    return <PlayerInfo player={player} key={player.player} toPlay={game.toPlay} playerNumber={game.playerNumber}/>
                 })}
              </div>
-            {/* TO DO - show 'blue won'  */}
-
-            <div class='messageDiv'>{message}</div>
+            <div className='messageDiv'>{message}</div>
             <div className='dashboardCards'>
                 <div className='dashboardSide dashboardLeft'>
                     <div className='currentGoal'>
                         <p className='cardsHeader'>CURRENT GOAL</p>
-                        {game.playerNumber && game.started && game.toPlay ? <Card missionName={props.mission.goal}/> : <div className='missionCard' style={{backgroundColor: 'white'}}></div>}
+                        {game.playerNumber && game.started && game.toPlay ? <Card missionName={game.goal.goal}/> : <div className='missionCard' style={{backgroundColor: 'white'}}></div>}
                     </div>
                 </div>
                 <div className='dashboardSide dashboardRight'>
                     <div className='previousGoals'>
                         <p className='cardsHeader'>REACHED GOALS</p>
                         {game.completed.length > 0 ? game.completed.map(goal => {
-                        return <img className='missionThumbnail' src={`/img/missionCards/${goal.goal}.png`}></img> }) : null}
+                        return <img className='missionThumbnail' alt={goal.goal} src={`/img/missionCards/${goal.goal}.png`}></img> }) : null}
                     </div>
                 </div>
             </div>
-
-    
         </div>
     )
 }

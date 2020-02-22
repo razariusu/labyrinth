@@ -1,16 +1,14 @@
 import actionTypes from '../constants/actionTypes'
 import socket from '../../socket'
 import store from '../store'
-import {movePlayer} from './gameActions'
-import {changeExtra, positionExtra, rotateTile} from './extraActions'
-import {onBoard, inRow} from '../reducers/tilesReducer'
-import {updatePlayer, changePhase, setTransformation, animateTiles, restoreAnimation} from './gameActions'
+import {positionExtra} from './extraActions'
+import {onBoard, inRow} from '../../functions'
+import {updatePlayer, changePhase, setTransformation} from './gameActions'
 
 
 
 export const addToBoard = (clickedTile, style) => {
   return (dispatch, getState) => {
-    
     const toChange = []
     const state = getState()
     const board = Object.assign({}, state.tiles.board);
@@ -36,108 +34,10 @@ export const addToBoard = (clickedTile, style) => {
         toChange.push(y)
       }
     }
-
-    // const toChangeObjects = toChange.map(tileI => {
-    //   return board[tileI]
-    // })
-
-    // const newExtra = toChangeObjects.pop()
-    // toChangeObjects.unshift(extraTile)
-
-    // for(var i = 0; i < toChange.length; i++) {
-    //   newBoard[toChange[i]] = toChangeObjects[i]
-    // }
-
-    
     // also lock the board and make undo impossible
     socket.emit('setTransformation', {style, clickedTile, oldExtraTile, toChange})
-    // dispatch(setTransformation(style, toChange))
-    // restoreAnimation, finishAdd, changeExtra
-    // setTimeout(() => {
-    //   if(playerLocs.includes(newExtra.tileId)) {
-    //     newPlayerLocs = playerLocs.map((loc) => {
-    //       return loc === newExtra.tileId ? extraTile.tileId : loc
-    //     })
-
-
-      //   dispatch(updatePlayer(newPlayerLocs))
-      // }
-      
-      // also unlock the board
-      // socket.emit('changePhase')
-      // dispatch(changePhase())
-    // }, 1000)
-    
-    
   }
 }
-
-
-socket.on('setTransformation', ({style, toChange}) => {
-  store.dispatch(setTransformation(style, toChange))
-})
-
-socket.on('setRotation', rotation => {
-  
-})
-
-socket.on('doAll', ({toChange, extraTile, oldExtraTile}) => {
-  console.log(toChange)
-  let newBoard = Object.assign({}, store.getState().tiles.board)
-  let newExtra = extraTile
-  // const players = [...store.getState().game.players]
-  // let newPlayerLocs = []
-  // const playerLocs = players.map(player => {
-  //     return player.location
-  //   })
-  // if(playerLocs.includes(extraTile.tileId)) {
-  //   newPlayerLocs = playerLocs.map((loc) => {
-  //     return loc === newExtra.tileId ? oldExtraTile.tileId : loc
-  //   })
-  // }
-  const toChangeObjects = toChange.map(tileI => {
-    return newBoard[tileI]
-  })
-  console.log(toChangeObjects)
-
-  toChangeObjects.pop()
-  toChangeObjects.unshift(oldExtraTile)
-
-  for(var i = 0; i < toChange.length; i++) {
-    newBoard[toChange[i]] = toChangeObjects[i]
-  }
-  console.log('new board:')
-  console.log(newBoard)
-  console.log('new extra:')
-  console.log(newExtra)
-  store.dispatch(doAll(newBoard, newExtra))
-
-    // dispatch(updatePlayer(newPlayerLocs))
-  // if(newPlayerLocs.length > 0) {
-  //   store.dispatch(updatePlayer(newPlayerLocs))
-  // }
-  
-  store.dispatch(changePhase(1))
-})
-
-socket.on('updatePlayer', newPlayerLocs => {
-  store.dispatch(updatePlayer(newPlayerLocs))
-})
-
-// socket.on('changePhase', () => {
-//   store.dispatch(changePhase())
-// })
-
-
-
-
-
-// export const finishAdd = (newBoard) => {
-//   return {
-//     type: actionTypes.FINISH_ADD,
-//     newBoard
-//   }
-// }
 
 export const beginPositioning = (x, nextTo, style) => {
   return (dispatch, getState) => {
@@ -165,52 +65,8 @@ export const beginPositioning = (x, nextTo, style) => {
       console.log(newExtraPosition)
     }
     socket.emit('positionExtra', {newExtraPosition, rotation})
-    // dispatch(positionExtra(newExtraPosition))
   }
-
-  
-
-
 }
-
-socket.on('positionExtra', ({newExtraPosition, rotation}) => {
-  store.dispatch(positionExtra(newExtraPosition, rotation))
-})
-
-// const initiateDoAll = (toChange, extraTile) => {
-//   return (dispatch, getState) => {
-//     let newBoard = Object.assign({}, getState().tiles.board)
-//     const players = [...getState().game.players]
-//     let newPlayerLocs
-//     const playerLocs = players.map(player => {
-//         return player.location
-//       })
-//     if(playerLocs.includes(extraTile.tileId)) {
-//       newPlayerLocs = playerLocs.map((loc) => {
-//         return loc === newExtra.tileId ? store.getState().tiles.extraTile.tileId : loc
-//       })
-//     }
-//     const toChangeObjects = toChange.map(tileI => {
-//       return newBoard[tileI]
-//     })
-
-//     const newExtra = toChangeObjects.pop()
-//     toChangeObjects.unshift(extraTile)
-
-//     for(var i = 0; i < toChange.length; i++) {
-//       newBoard[toChange[i]] = toChangeObjects[i]
-//     }
-//     setTimeout(() => {
-//       dispatch(doAll(newBoard, newExtra))
-
-//       dispatch('updatePlayer', newPlayerLocs)
-//         // dispatch(updatePlayer(newPlayerLocs))
-      
-//       dispatch(changePhase(1))
-//     }, 1000)
-  
-//   }
-// }
 
 const doAll = (newBoard, newExtra) => {
   return {
@@ -219,3 +75,31 @@ const doAll = (newBoard, newExtra) => {
     newExtra
   }
 }
+
+socket.on('setTransformation', ({style, toChange}) => {
+  store.dispatch(setTransformation(style, toChange))
+})
+
+socket.on('doAll', ({toChange, extraTile, oldExtraTile}) => {
+  let newBoard = Object.assign({}, store.getState().tiles.board)
+  let newExtra = extraTile
+  const toChangeObjects = toChange.map(tileI => {
+    return newBoard[tileI]
+  })
+  toChangeObjects.pop()
+  toChangeObjects.unshift(oldExtraTile)
+
+  for(var i = 0; i < toChange.length; i++) {
+    newBoard[toChange[i]] = toChangeObjects[i]
+  }
+  store.dispatch(doAll(newBoard, newExtra))
+  store.dispatch(changePhase(1))
+})
+
+socket.on('updatePlayer', newPlayerLocs => {
+  store.dispatch(updatePlayer(newPlayerLocs))
+})
+
+socket.on('positionExtra', ({newExtraPosition, rotation}) => {
+  store.dispatch(positionExtra(newExtraPosition, rotation))
+})

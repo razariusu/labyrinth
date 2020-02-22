@@ -28,7 +28,6 @@ const gameReducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.SET_STARTED:
       return {...state, started: action.hasStarted}
-
     case actionTypes.UPDATE_PLAYERS_OBJECT:
       return {...state, players: action.playersNew}
     case actionTypes.INCREASE_SCORE:
@@ -43,7 +42,6 @@ const gameReducer = (state = initState, action) => {
     case actionTypes.RESET_GOAL_REACHED:
       return {...state, goalReached: null}
     case actionTypes.SET_GOAL:
- 
       return {...state, goal: action.newGoal}
     case actionTypes.UPDATE_REACHED_GOALS:
       let newCompleted
@@ -53,7 +51,7 @@ const gameReducer = (state = initState, action) => {
       else {
         newCompleted = [...state.completed, action.reachedGoal]
       }
-        return {...state, completed: newCompleted}
+      return {...state, completed: newCompleted}
     case actionTypes.UPDATE_PLAYER_COUNTER:
       return {...state, joined: action.playerCounter}
     case actionTypes.UPDATE_PLAYER_NUMBER:
@@ -63,6 +61,8 @@ const gameReducer = (state = initState, action) => {
       anotherState.toPlay = action.toPlay
       anotherState.started = true
       return anotherState
+    case actionTypes.UNLOCK_BOARD: 
+      return {...state, locked: false}
     case actionTypes.MOVE_PLAYER:
       const newState = Object.assign({}, action.newGameState);
       return newState
@@ -79,7 +79,6 @@ const gameReducer = (state = initState, action) => {
       return newPathState
     case actionTypes.FINISH_MOVE:
       let player = action.player
-      console.log(player)
       let playerToUpdate = Object.values(state.players).find(obj => obj.player === player)
       playerToUpdate.location = action.goalTileId
       let players = Object.assign(state.players)
@@ -89,21 +88,15 @@ const gameReducer = (state = initState, action) => {
       const movedState = {...state, players: newestPlayers}
       return movedState;
     case actionTypes.CHANGE_PLAYER:
-      console.log(action.nextPlayer)
       return {...state, toPlay: action.toPlayName}
     case actionTypes.MISSION_DONE:
       let newPlayer = action.player
       let newPlayerMissions = newPlayer.goal.filter(id => {return id !== action.goalTileId })
-      console.log(newPlayerMissions)
       newPlayer.score += 1
       let oldGoalIndex = newPlayer.missions.findIndex((value) => value === action.goalTileId)
-      console.log(oldGoalIndex)
       newPlayerMissions.unshift(newPlayer.missions[oldGoalIndex + 1])
       newPlayer.goal = newPlayerMissions
-      console.log(newPlayerMissions)
       let newestPlayers1 = state.players.map(player => {
-        console.log(player)
-        console.log(newPlayer)
         return player.player === newPlayer.player ? newPlayer : player
       })
       const playersNewState = {...state, players: newestPlayers1}
@@ -141,7 +134,6 @@ const gameReducer = (state = initState, action) => {
     case actionTypes.UPDATE_MESSAGE:
       return {...state, message: action.message}
     case actionTypes.UPDATE_PLAYER_NAME:
-      
       return {...state, name: action.name }
     case actionTypes.GAME_OVER:
       return {...state, winner: action.winners, locked: true}

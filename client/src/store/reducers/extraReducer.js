@@ -1,5 +1,4 @@
 import actionTypes from '../constants/actionTypes'
-// import {extraTile} from '../../functions'
 
 const initState = {tile: 0,
                   position: {top: '246px', left: '700px'}}
@@ -11,15 +10,6 @@ const extraReducer = (state = initState, action) => {
       rotatedTile.rotation = action.rotation
       console.log(rotatedTile)
       return {...state, tile: rotatedTile}
-    // let rotatedState = Object.assign({}, state)
-    // if(action.rotation === 3) {
-    //   rotatedState.tile.rotation = 0;
-    //   }
-    //  else {
-    //   rotatedState.tile.rotation = parseInt(rotatedState.tile.rotation) + 1;
-    //   }
-    // return rotatedState;
-
     case actionTypes.CHANGE_EXTRA:
     let newTileState = Object.assign({}, state);
     newTileState.tile = action.newExtraTile
@@ -31,7 +21,6 @@ const extraReducer = (state = initState, action) => {
     case actionTypes.DO_ALL:
     let doAllState = Object.assign({}, state)
     doAllState.tile = action.newExtra
-    console.log(doAllState.tile)
     doAllState.position = {
       top: '246px',
       left: '700px'

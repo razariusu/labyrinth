@@ -3,22 +3,17 @@ import React from 'react'
 
 const ExtraTile = (props) => {
 
-  // onLoad - change class from 'hidden' to 'show'
-  console.log(props.extraTile)
-
-  let degrees = parseInt(props.extraTile.tile.rotation) * 90;
+  const {extraTile, transformation, handleRotation} = props
+  let degrees = parseInt(extraTile.tile.rotation) * 90;
   let background;
-  if(props.extraTile.tile.goal) {
-    background = `/img/tiles/${props.extraTile.tile.goal}.png`
-  }
-  else {
-    background = `/img/tiles/${props.extraTile.tile.type}.png`
-  }
+  let nameToAppend = `${extraTile.tile.goal ? extraTile.tile.goal : extraTile.tile.type}`
+  
+  background = `/img/tiles/${nameToAppend}.png`
 
   return(
-      <div className='extraDiv' style={props.extraTile.position}>
-        <div className={`${props.transformation.transform !== 'none' ? 'toAnimate' : null}`} style={props.transformation}>
-          <div className={`tile extraTile`} style={{transform: `rotate(${degrees}deg)`}} onClick={() => props.handleRotation(props.extraTile.tile.rotation)}><img alt={props.extraTile.tile.goal ? props.extraTile.tile.goal : props.extraTile.tile.type}className='tileImg' src={background} alt></img></div>
+      <div className='extraDiv' style={extraTile.position}>
+        <div className={`${transformation.transform !== 'none' ? 'toAnimate' : null}`} style={transformation}>
+          <div className={`tile extraTile`} style={{transform: `rotate(${degrees}deg)`}} onClick={() => handleRotation(extraTile.tile.rotation)}><img alt={nameToAppend}className='tileImg' src={background}></img></div>
         </div>
       </div>
 
